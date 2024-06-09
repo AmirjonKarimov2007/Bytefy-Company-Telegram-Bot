@@ -1,22 +1,36 @@
 from django.contrib import admin
-from .models import User,Services
+from .models import Service, BasicService, StandardService, PremiumService
 
-class UserAdmin(admin.ModelAdmin):
-    list_display = ['id', 'name', 'username', 'user_id']  # Customize the fields displayed in the admin interface
+class BasicServiceInline(admin.StackedInline):
+    model = BasicService
+    extra = 1
 
-# Register your models here.
-admin.site.register(User, UserAdmin)
-class ServicesAdmin(admin.ModelAdmin):
-    list_display = ('name', 'basic_price','standard_price','premium_price')  # Displayed columns in the admin list view
-    search_fields = ('name',)  # Enable searching by name
-  # Add filtering by package
-    fieldsets = (
-        (None, {
-            'fields': ('name', 'photo', 'description')
-        }),
-        ('Package Prices', {
-            'fields': ('basic_price', 'standard_price', 'premium_price'),
-        }),
-    )  # Arrange fields in the admin form
+class StandardServiceInline(admin.StackedInline):
+    model = StandardService
+    extra = 1
 
-admin.site.register(Services, ServicesAdmin)
+class PremiumServiceInline(admin.StackedInline):
+    model = PremiumService
+    extra = 1
+
+@admin.register(Service)
+class ServiceAdmin(admin.ModelAdmin):
+    list_display = ('fullname', 'photo', 'description')
+    search_fields = ('fullname',)
+    inlines = [BasicServiceInline, StandardServiceInline, PremiumServiceInline]
+
+# Optional: Register the service models separately if you still want to manage them individually
+@admin.register(BasicService)
+class BasicServiceAdmin(admin.ModelAdmin):
+    list_display = ('service', 'description', 'price')
+    search_fields = ('service__fullname',)
+
+@admin.register(StandardService)
+class StandardServiceAdmin(admin.ModelAdmin):
+    list_display = ('service', 'description', 'price')
+    search_fields = ('service__fullname',)
+
+@admin.register(PremiumService)
+class PremiumServiceAdmin(admin.ModelAdmin):
+    list_display = ('service', 'description', 'price')
+    search_fields = ('service__fullname',)

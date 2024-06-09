@@ -5,3 +5,4 @@ from keyboards.inline import pages_keyboard
 async def home_page(message: types.Message):
     await message.answer("Bo'limni Tanlang!",reply_markup=pages_keyboard.home)
     servis = await db.select_all_services()
+    print(servis)

@@ -39,4 +39,6 @@ async def service_packages(call: types.CallbackQuery):
     
     text = f"<a href=\"{service_data[0]['photo']}\">{service_data[0]['name']}ning Tarif rejalari! </a>"
     await call.message.edit_text(text=text, reply_markup=service_btn)
-
+@dp.message_handler(text='a')
+async def funksiya(message: types.Message)
+    await db.select_service()
