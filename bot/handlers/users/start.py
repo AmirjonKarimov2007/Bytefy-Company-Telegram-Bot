@@ -12,10 +12,10 @@ from loader import dp, db, bot
 from states.send_chanell import SuperAdminStateChannel
 import asyncpg
 logging.basicConfig(level=logging.INFO)
-
 @dp.callback_query_handler(text="start")
 async def bot_echo(message: CallbackQuery):
     user = message.from_user
+    await message.message.delete()
     try:
         await db.add_user(user_id=user.id, name=user.first_name)
     except:
@@ -39,10 +39,8 @@ async def bot_start(message: types.Message):
     username = message.from_user.username
     try:
         await db.add_user(user_id=user.id,username=username, name=user.first_name)
-    except Exception as ex:
-        print(ex)
     except asyncpg.exceptions.UniqueViolationError:
-        user = await db.select_user(telegram_id=message.from_user.id)
+        user = await db.select_user(user_id=message.from_user.id)
 
     if 2 == len(message.text.split(' ')) > 0:
         return await idsave(message, message.text.split(' ')[1])
@@ -55,10 +53,9 @@ async def bot_start(message: types.Message):
     username = message.from_user.username
     try:
         await db.add_user(user_id=user.id,username=username, name=user.first_name)
-    except Exception as ex:
-        print(ex)
+
     except asyncpg.exceptions.UniqueViolationError:
-        user = await db.select_user(telegram_id=message.from_user.id)
+        user = await db.select_user(user_id=message.from_user.id)
 
     if 2 == len(message.text.split(' ')) > 0:
         return await idsave(message, message.text.split(' ')[1])

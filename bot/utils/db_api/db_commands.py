@@ -207,17 +207,18 @@ class Database:
         service_types = ["basic", "standard", "premium"]
         results = []
 
-        for service_type in service_types:
-            table_name_map = {
-                "basic": "users_BasicService",
-                "standard": "users_standardService",
-                "premium": "users_premiumService"
-            }
+        table_name_map = {
+            "basic": "users_BasicService",
+            "standard": "users_standardService",
+            "premium": "users_premiumService"
+        }
 
+        for service_type in service_types:
             sql = f"SELECT * FROM {table_name_map[service_type]} WHERE "
             sql, parameters = self.format_args(sql, kwargs)
             result = await self.execute(sql, *parameters, fetch=True)
-            results.append(result)
+            if result:  # Only append if result is not empty
+                results.append(result)
 
         return results
 
