@@ -202,14 +202,6 @@ class Database:
 
     async def delete_channel(self, channel):
         return await self.execute("DELETE FROM Channels WHERE channel=$1", channel, execute=True)
-# For Services
-# For Services
-# For Services
-# For Services
-# For Services
-# For Services
-# For Services
-# For Services
 
     async def select_all_services(self, **kwargs):
         service_types = ["basic", "standard", "premium"]
@@ -229,6 +221,7 @@ class Database:
 
         return results
 
+
     async def select_service(self, **kwargs):
         sql = "SELECT * FROM users_service WHERE "
         sql, parameters = self.format_args(sql, kwargs)
@@ -237,8 +230,6 @@ class Database:
 
 
     async def select_services(self):
-        sql = "SELECT * FROM users_service "
-        sql = self.format_args(sql)
+        sql = "SELECT * FROM users_service"
 
         return await self.execute(sql, fetch=True)
-
