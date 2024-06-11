@@ -4,7 +4,7 @@ from asyncpg.pool import Pool
 from typing import Union
 
 from data import config
-
+import logging
 class Database:
     def __init__(self):
         self.pool: Union[Pool, None] = None
@@ -204,25 +204,29 @@ class Database:
         return await self.execute("DELETE FROM Channels WHERE channel=$1", channel, execute=True)
 
     async def select_all_services(self, **kwargs):
-        service_types = ["basic", "standard", "premium"]
+        service_types = ["users_BasicService", "users_StandardService", "users_PremiumService"]
         results = []
 
-        table_name_map = {
-            "basic": "users_BasicService",
-            "standard": "users_standardService",
-            "premium": "users_premiumService"
-        }
+
 
         for service_type in service_types:
-            sql = f"SELECT * FROM {table_name_map[service_type]} WHERE "
+            sql = f"SELECT * FROM {service_type} WHERE "
             sql, parameters = self.format_args(sql, kwargs)
+            
+            # Log the SQL and parameters
+            logging.debug(f"Executing SQL for {service_type}: {sql} with parameters {parameters}")
+            
             result = await self.execute(sql, *parameters, fetch=True)
-            if result:  # Only append if result is not empty
+            # Log the result
+            logging.debug(f"Result for {service_type}: {result}")
+            
+            if result:
                 results.append(result)
 
+        # Log the final results
+        logging.debug(f"Final results: {results}")
+        
         return results
-
-
     async def select_service(self, **kwargs):
         sql = "SELECT * FROM users_service WHERE "
         sql, parameters = self.format_args(sql, kwargs)
@@ -234,3 +238,23 @@ class Database:
         sql = "SELECT * FROM users_service"
 
         return await self.execute(sql, fetch=True)
+    
+    async def select_premium(self):
+        sql = "SELECT * FROM users_PremiumService"
+
+        return await self.execute(sql, fetch=True)
+    
+
+    async def select_package(self, **kwargs):
+        sql = "SELECT * FROM users_PremiumService WHERE "
+        sql, parameters = self.format_args(sql, kwargs)
+
+        # Log the SQL and parameters
+        logging.debug(f"Executing SQL: {sql} with parameters {parameters}")
+
+        result = await self.execute(sql, *parameters, fetch=True)
+
+        # Log the result
+        logging.debug(f"Result: {result}")
+
+        return result

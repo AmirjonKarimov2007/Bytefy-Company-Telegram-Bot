@@ -35,6 +35,7 @@ async def service_packages(call: types.CallbackQuery):
     id = data[1]
     services = await db.select_all_services(id=int(id))
     markup = await service_keyboard(services)
+
     service = await db.select_service(id=int(id))
     text = f"<b><a href=\"{service[0]['photo']}\">{service[0]['fullname']}ning Tarif rejalari! </a></b>\n\n"
     text+=f"<b>{service[0]['description']}</b>\n\n"
