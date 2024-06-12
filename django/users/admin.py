@@ -19,18 +19,17 @@ class ServiceAdmin(admin.ModelAdmin):
     search_fields = ('fullname',)
     inlines = [BasicServiceInline, StandardServiceInline, PremiumServiceInline]
 
-# Optional: Register the service models separately if you still want to manage them individually
 @admin.register(BasicService)
 class BasicServiceAdmin(admin.ModelAdmin):
-    list_display = ('service', 'description', 'price')
+    list_display = ('iid', 'service', 'description', 'price')
     search_fields = ('service__fullname',)
 
 @admin.register(StandardService)
 class StandardServiceAdmin(admin.ModelAdmin):
-    list_display = ('service', 'description', 'price')
+    list_display = ('iid', 'service', 'description', 'price')
     search_fields = ('service__fullname',)
 
 @admin.register(PremiumService)
 class PremiumServiceAdmin(admin.ModelAdmin):
-    list_display = ('service', 'description', 'price')
+    list_display = ('iid', 'service', 'description', 'price')
     search_fields = ('service__fullname',)
