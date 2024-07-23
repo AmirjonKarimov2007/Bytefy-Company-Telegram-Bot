@@ -54,12 +54,12 @@ async def works_services(selected_services=None):
     services = await db.select_services()
     
     for service in services:
-        is_selected = service['id'] in selected_services
+        is_selected = service['fullname'] in selected_services
         button_text = f"✅ {service['fullname']}" if is_selected else service['fullname']
-        callback_data = f"offline:select_servic:{service['id']}"
+        callback_data = f"offline:select_servic:{service['fullname']}"
         services_btn.insert(InlineKeyboardButton(text=button_text, callback_data=callback_data))
     
-    services_btn.add(InlineKeyboardButton(text="📄Invoys Yaratish", callback_data="finalize_selection"))
+    services_btn.add(InlineKeyboardButton(text="📄INVOYS OLISH", callback_data="finalize_selection"))
     services_btn.add(InlineKeyboardButton(text="◀️ Orqaga", callback_data="home"))
     
     return services_btn

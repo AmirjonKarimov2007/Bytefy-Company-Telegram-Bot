@@ -4,18 +4,11 @@ from reportlab.pdfgen import canvas
 from datetime import datetime
 
 services = {
-    1: {"name": "Service 1"},
-    2: {"name": "Service 2"},
-    3: {"name": "Service 3"},
-    4: {"name": "Service 4"},
-    5: {"name": "Service 5"},
-    6: {"name": "Service 6"},
-    7: {"name": "Service 7"},
-    8: {"name": "Service 8"},
-    9: {"name": "Service 9"},
+    1: {"name": "Telegram Bot"},
+    2: {"name": "Interior Design"},
 }
 
-def create_pdf(output_path, services, ism_familiya, sharif,registrant):
+async def create_pdf(output_path, services, ism_familiya, sharif,registrant):
     c = canvas.Canvas(output_path, pagesize=A4)
     width, height = A4
     sarlavha = (f"EURO ASIA PROJECT TOMONIDAN ”{ism_familiya}\n"
@@ -58,5 +51,6 @@ def create_pdf(output_path, services, ism_familiya, sharif,registrant):
     c.drawString(423, 175, registrant)
 
     c.save()
+    return output_path
 
-create_pdf(r"/home/amirjon/Telegram_Channels_Bot/Bytefy-Company-Telegram-Bot/invoyslar/outpud.pdf", services, "Azamjon Olimov", " ","Amirjon Karimov")
+# create_pdf(r"/home/amirjon/Telegram_Channels_Bot/Bytefy-Company-Telegram-Bot/invoyslar/outpud.pdf", services, "Azamjon Olimov", " ","Amirjon Karimov")
