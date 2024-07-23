@@ -274,14 +274,6 @@ from typing import List, Union
                     content_types=types.ContentTypes.ANY)
 @dp.message_handler(is_media_group=True, content_types=types.ContentType.ANY)
 async def add_post_to_social(message: types.Message,state: FSMContext,album: List[types.Message]):
-
-
-
-
-
-
-
-
     file = message.content_type
     niamdir = message.content_type
     users =  await db.stat()
@@ -371,7 +363,8 @@ async def handle_albums(message: types.Message, album: List[types.Message]):
 
 
 # Bosh menu
-@dp.callback_query_handler(IsSuperAdmin(), text="back_to_main_menu", state="*")
+@dp.callback_query_handler(IsSuperAdmin()
+                           , text="back_to_main_menu", state="*")
 async def back_to_main_menu_method(call: types.CallbackQuery,state: FSMContext):
     await call.answer(cache_time=1)
     await call.message.edit_text(text="👨‍💻 Bosh menyu", reply_markup=main_menu_for_super_admin)

@@ -2,9 +2,9 @@ from aiogram import types
 from aiogram.types import ReplyKeyboardRemove,ReplyKeyboardMarkup,KeyboardButton
 from loader import dp
 
-boglanish = ReplyKeyboardMarkup(
+home = ReplyKeyboardMarkup(
     keyboard=[[
-        KeyboardButton(text="📞Bog'lanish")
+        KeyboardButton(text="✅Boshlash")
     ],],
     resize_keyboard=True
 )

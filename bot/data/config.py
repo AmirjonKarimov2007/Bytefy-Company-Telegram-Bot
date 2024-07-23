@@ -12,6 +12,6 @@ DB_PASS = env.str("DB_PASS")
 DB_NAME = env.str("DB_NAME")
 DB_HOST = env.str("DB_HOST")
 DB_PORT = env.int("DB_PORT")
-
+PROVIDER_TOKEN = env.str("PROVIDER_TOKEN")
 
 

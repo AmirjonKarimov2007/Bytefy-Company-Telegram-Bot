@@ -1,5 +1,19 @@
 from django.contrib import admin
 from .models import Service, BasicService, StandardService, PremiumService
+from .models import Arizalar
+from .models import User
+@admin.register(User)
+# Register your models here.
+class User(admin.ModelAdmin):
+    list_display = ['id','full_name', 'username', 'user_id', 'created_at','updated_at']
+    search_fields = ['id','full_name', 'username','user_id']
+
+class ArizalarAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name', 'username', 'user_id', 'phone_number')
+    search_fields = ('name', 'username', 'user_id', 'phone_number')
+    list_filter = ('name',)
+
+admin.site.register(Arizalar, ArizalarAdmin)
 
 class BasicServiceInline(admin.StackedInline):
     model = BasicService

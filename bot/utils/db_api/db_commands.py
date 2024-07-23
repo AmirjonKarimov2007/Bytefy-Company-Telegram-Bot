@@ -65,13 +65,6 @@ class Database:
         parameters = tuple(int(param) if param == 'user_id' else param for param in parameters)
 
         return await self.execute(sql, *parameters, fetch=True)
-    async def add_user(self, name, username, user_id):
-        sql = """
-            INSERT INTO users_user (name, username, user_id)
-            VALUES($1, $2, $3)
-            RETURNING *
-        """
-        return await self.execute(sql, name, username, user_id, fetchrow=True)
 
 
     async def is_admin(self, **kwargs):
@@ -82,7 +75,13 @@ class Database:
         parameters = tuple(str(param) for param in parameters)
 
         return await self.execute(sql, *parameters, fetch=True)
-
+    async def add_user(self, full_name, username, user_id):
+            sql = """
+                INSERT INTO users_user (full_name, username, user_id, created_at, updated_at)
+                VALUES($1, $2, $3, timezone('Asia/Tashkent', now()), timezone('Asia/Tashkent', now()))
+                RETURNING *
+            """
+            return await self.execute(sql, full_name, username, user_id, fetchrow=True)
     async def select_all_users(self):
         sql = """
         SELECT * FROM users_user
@@ -258,3 +257,22 @@ class Database:
         logging.debug(f"Result: {result}")
 
         return result
+    
+
+
+
+
+    # Arizalar uchun funksiyalar
+
+    async def add_requests(self, name: str, username: str, user_id: int, phone_number: int, service_id: int, selected_package: str):
+        sql = """
+            INSERT INTO users_Arizalar(name, username, user_id, phone_number, service_id, selected_package) VALUES ($1, $2, $3, $4, $5, $6)
+            """
+        await self.execute(sql, name, username, user_id, phone_number, service_id, selected_package, execute=True)
+
+
+    async def select_all_requests(self):
+        sql = """
+        SELECT * FROM users_Arizalar
+        """
+        return await self.execute(sql, fetch=True)

@@ -2,7 +2,7 @@ from loader import db,bot,dp
 from aiogram.types import Message,Update,CallbackQuery
 
 from keyboards.inline.pages_keyboard import home_keyboard
-@dp.message_handler(commands='home')
+@dp.message_handler(text='✅Boshlash')
 @dp.callback_query_handler(text='home', state='*')
 async def home_page(update: Update):
     try:

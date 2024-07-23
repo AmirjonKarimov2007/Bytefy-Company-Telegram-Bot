@@ -11,17 +11,18 @@ from keyboards.inline.main_menu_super_admin import main_menu_for_super_admin, ma
 from loader import dp, db, bot
 from states.send_chanell import SuperAdminStateChannel
 import asyncpg
+from keyboards.default.boglanish_button import home
 logging.basicConfig(level=logging.INFO)
 @dp.callback_query_handler(text="start")
 async def bot_echo(message: CallbackQuery):
     user = message.from_user
     await message.message.delete()
     try:
-        await db.add_user(user_id=user.id, name=user.first_name)
+        await db.add_user(user_id=user.id, full_name=user.first_name)
     except:
         pass
 
-    await bot.send_message(chat_id=user.id, text="<b>✅Botdan bemalol foydalanishingiz mumkin.</b>")
+    await bot.send_message(chat_id=user.id, text="<b>✅Botdan bemalol foydalanishingiz mumkin.</b>",reply_markup=home)
 
 @dp.message_handler(IsAdmin(), CommandStart(), state="*")
 async def bot_start_admin(message: types.Message):
@@ -38,21 +39,21 @@ async def bot_start(message: types.Message):
     user = message.from_user
     username = message.from_user.username
     try:
-        await db.add_user(user_id=user.id,username=username, name=user.first_name)
+        await db.add_user(user_id=user.id,username=username, full_name=user.first_name)
     except asyncpg.exceptions.UniqueViolationError:
         user = await db.select_user(user_id=message.from_user.id)
 
     if 2 == len(message.text.split(' ')) > 0:
         return await idsave(message, message.text.split(' ')[1])
     user_id = message.from_user.first_name
-    await message.reply(f"<b>👋🏻 Assalomu Aleykum {user_id} botimizga Xush kelipsiz!</b>")
+    await message.reply(f"<b>👋🏻 Assalomu Aleykum {user_id} botimizga Xush kelipsiz!</b>",reply_markup=home)
 
 @dp.message_handler(IsUser(), CommandStart(), state="*")
 async def bot_start(message: types.Message):
     user = message.from_user
     username = message.from_user.username
     try:
-        await db.add_user(user_id=user.id,username=username, name=user.first_name)
+        await db.add_user(user_id=user.id,username=username, full_name=user.first_name)
 
     except asyncpg.exceptions.UniqueViolationError:
         user = await db.select_user(user_id=message.from_user.id)
@@ -60,7 +61,7 @@ async def bot_start(message: types.Message):
     if 2 == len(message.text.split(' ')) > 0:
         return await idsave(message, message.text.split(' ')[1])
     user_id = message.from_user.first_name
-    await message.reply(f"<b>👋🏻 Assalomu Aleykum {user_id} botimizga Xush kelipsiz!</b>")
+    await message.reply(f"<b>👋🏻 Assalomu Aleykum {user_id} botimizga Xush kelipsiz!</b>",reply_markup=home)
 
 async def idsave(message: types.Message, text=None):
     try:
@@ -83,6 +84,6 @@ async def idsave(message: types.Message, text=None):
                 elif IDTXT[1] == 'voice':
                     await message.answer_voice(IDTXT[2], caption=IDTXT[3])
             else:
-                await message.answer("Hech narsa topilmadi 😔")
+                await message.answer("Hech narsa topilmadi 😔",reply_markup=home)
     except:
-        await message.answer("Xatolik yuzaga keldi, qayta urinb ko'ring 😔")
+        await message.answer("Xatolik yuzaga keldi, qayta urinb ko'ring 😔",reply_markup=home)

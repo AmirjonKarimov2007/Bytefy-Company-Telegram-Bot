@@ -1,12 +1,16 @@
 from django.db import models
 
 class User(models.Model):
-    name = models.CharField(verbose_name='Fullname', max_length=100)
-    username = models.CharField(verbose_name='Username', max_length=100, null=True)
-    user_id = models.BigIntegerField(verbose_name='Telegram_id', unique=True)
+    full_name = models.CharField(max_length=255)
+    username = models.CharField(max_length=100, null=True, blank=True)
+    user_id = models.BigIntegerField(unique=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.name
+        return self.full_name
+
+
 
 class Service(models.Model):
     fullname = models.CharField(verbose_name='Xizmat nomi', max_length=100)
@@ -15,7 +19,19 @@ class Service(models.Model):
 
     def __str__(self):
         return f"{self.fullname}"
+class Arizalar(models.Model):
+    id = models.AutoField(verbose_name='Ariza Raqami', primary_key=True)
+    name = models.CharField(verbose_name="Ism Familiya", max_length=100)
+    username = models.CharField(verbose_name='Username', max_length=100, null=True, blank=True)
+    user_id = models.BigIntegerField(verbose_name='Telegram_id')
+    phone_number = models.CharField(verbose_name='Telefon raqami', max_length=15, null=True, blank=True)
 
+    # Yangi field service
+    service = models.ForeignKey(Service, verbose_name='Xizmat', on_delete=models.SET_NULL, null=True, blank=True)
+    selected_package = models.CharField(verbose_name='Tanlangan Paket', max_length=20, choices=[('Basic', 'Basic'), ('Standard', 'Standard'), ('Premium', 'Premium')], null=True, blank=True)
+
+    def __str__(self):
+        return f"{self.name} ({self.user_id})"
 class BasicService(models.Model):
     iid = models.IntegerField(default=1, editable=False, verbose_name='ID')
     fullname = models.CharField(max_length=255, default="Basic", editable=False, verbose_name='Full Name')

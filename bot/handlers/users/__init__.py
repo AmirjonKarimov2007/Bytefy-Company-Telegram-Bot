@@ -4,5 +4,6 @@ from . import super_admin_panel
 from . import admin
 from . import home
 from . import services
+from . import ishlar
 from . import contact
 from . import boglanish
